@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Advocate } from "../db/schema";
 import { filterAdvocates } from "./utils.ts";
 import { AdvocatesTable } from "./Components/AdvocatesTable";
+import { SearchHeader } from "./Components/SearchHeader";
 
 export default function Home() {
   const [advocates, setAdvocates] = useState<Advocate[]>([]);
@@ -36,20 +37,9 @@ export default function Home() {
 
   return (
     <main style={{ margin: "24px" }}>
-      <h1>Solace Advocates</h1>
-      <br />
-      <br />
-      <div>
-        <p>Search</p>
-        <p>
-          Searching for: <span id="search-term"></span>
-        </p>
-        <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <button onClick={onClick}>Reset Search</button>
-      </div>
-      <br />
-      <br />
-      <AdvocatesTable advocates={filteredAdvocates} />
+      <SearchHeader onClick={onClick} onChange={onChange}>
+        <AdvocatesTable advocates={filteredAdvocates} />
+      </SearchHeader>
     </main>
   );
 }
