@@ -1,10 +1,16 @@
+import {Advocate} from "../../db/schema";
+
+interface IAdvocatesTableProps {
+  advocates: Advocate[],
+};
+
 /**
  * Displays advocates' first name, last name, city, degree, specialties,
  * years of experience, and phone number
  *
  * @param advocates - list of Advocate data to display
  */
-export function AdvocatesTable({ advocates }) {
+export function AdvocatesTable({ advocates }: IAdvocatesTableProps) {
   return (
     <table>
       <thead>

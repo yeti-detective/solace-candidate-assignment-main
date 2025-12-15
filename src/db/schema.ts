@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { sql, InferSelectModel } from "drizzle-orm";
 import {
   pgTable,
   integer,
@@ -21,4 +21,7 @@ const advocates = pgTable("advocates", {
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
-export { advocates };
+// Export types
+export type Advocate = InferSelectModel<typeof advocates>;
+
+export { advocates, Advocate };
