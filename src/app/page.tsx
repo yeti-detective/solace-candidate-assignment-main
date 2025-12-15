@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import {Advocate} from "../db/schema";
+import {filterAdvocates} from "./utils.ts";
 import {AdvocatesTable} from "./Components/AdvocatesTable";
 
 export default function Home() {
@@ -24,17 +25,7 @@ export default function Home() {
     document.getElementById("search-term").innerHTML = searchTerm;
 
     console.log("filtering advocates...");
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience.includes(searchTerm)
-      );
-    });
-
+    const filteredAdvocates = filterAdvocates(advocates, searchTerm);
     setFilteredAdvocates(filteredAdvocates);
   };
 

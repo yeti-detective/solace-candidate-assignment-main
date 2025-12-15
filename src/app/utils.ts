@@ -15,3 +15,22 @@ export const formatPhoneNumber = (phoneNumber: Number): string => {
       return ""
   }
 }
+
+/**
+ * Case-insensitive filter function for advocates data 
+ * @param advocates - from the API response 
+ * @param searchTerm - term user means to search, will be trimmed and lower-cased 
+ */ 
+export const filterAdvocates = (advocates: Advocate[], searchTerm: string): Advocate[] => {
+  const processedSearchTerm = searchTerm.trim().toLowerCase();
+  return advocates.filter((advocate) => {
+    return (
+        advocate.firstName.toLowerCase().includes(processedSearchTerm) ||
+        advocate.lastName.toLowerCase().includes(processedSearchTerm) ||
+        advocate.city.toLowerCase().includes(processedSearchTerm) ||
+        advocate.degree.toLowerCase().includes(processedSearchTerm) ||
+        advocate.specialties.join('').toLowerCase().includes(processedSearchTerm) ||
+        advocate.yearsOfExperience.toString().toLowerCase().includes(processedSearchTerm)
+    )
+  })
+}
