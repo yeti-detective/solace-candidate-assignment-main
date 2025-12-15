@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { mockAdvocates } from "./mockAdvocates";
+import { advocateData as mockAdvocates } from "../db/seed/advocates.ts";
 import { filterAdvocates, formatPhoneNumber } from "./utils.ts";
 
 describe("Utils", () => {
