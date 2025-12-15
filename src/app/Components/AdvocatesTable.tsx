@@ -1,4 +1,5 @@
 import {Advocate} from "../../db/schema";
+import {formatPhoneNumber} from "../utils";
 
 interface IAdvocatesTableProps {
   advocates: Advocate[],
@@ -38,7 +39,7 @@ export function AdvocatesTable({ advocates }: IAdvocatesTableProps) {
                 ))}
               </td>
               <td>{advocate.yearsOfExperience}</td>
-              <td>{advocate.phoneNumber}</td>
+              <td>{formatPhoneNumber(advocate.phoneNumber)}</td>
             </tr>
           );
         })}
