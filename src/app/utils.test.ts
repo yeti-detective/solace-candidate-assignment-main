@@ -12,5 +12,11 @@ describe('Utils', () => {
 
       expect(formatPhoneNumber(exampleInput)).toEqual(expectedFormattedString);
     })
+    test('formats a 7 digit number like we used to have in the 90s', () => {
+      const exampleInput = 7636307; // my number in elementary school
+      const expectedFormattedString = "763-6307";
+
+      expect(formatPhoneNumber(exampleInput)).toEqual(expectedFormattedString);
+    })
   })
 });
