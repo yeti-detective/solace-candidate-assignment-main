@@ -3,8 +3,11 @@ import { formatPhoneNumber } from './utils.ts';
 
 describe('Utils', () => {
   describe('formatPhoneNumber', () => {
-    test('should be defined', () => {
-      expect(formatPhoneNumber).toBeDefined();
+    test('formats a number to a UI friendly string', () => {
+      const exampleInput = 5553217654; // from db seed data 
+      const expectedFormattedString = "555-321-7654";
+
+      expect(formatPhoneNumber(exampleInput)).toEqual(expectedFormattedString);
     })
   })
 });
