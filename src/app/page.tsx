@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {Advocate} from "../db/schema";
-import {filterAdvocates} from "./utils.ts";
-import {AdvocatesTable} from "./Components/AdvocatesTable";
+import { Advocate } from "../db/schema";
+import { filterAdvocates } from "./utils.ts";
+import { AdvocatesTable } from "./Components/AdvocatesTable";
 
 export default function Home() {
   const [advocates, setAdvocates] = useState<Advocate[]>([]);

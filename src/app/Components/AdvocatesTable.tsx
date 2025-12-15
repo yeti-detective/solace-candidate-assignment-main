@@ -1,9 +1,9 @@
-import {Advocate} from "../../db/schema";
-import {formatPhoneNumber} from "../utils";
+import { Advocate } from "../../db/schema";
+import { formatPhoneNumber } from "../utils";
 
 interface IAdvocatesTableProps {
-  advocates: Advocate[],
-};
+  advocates: Advocate[];
+}
 
 /**
  * Displays advocates' first name, last name, city, degree, specialties,
@@ -28,7 +28,9 @@ export function AdvocatesTable({ advocates }: IAdvocatesTableProps) {
       <tbody>
         {advocates.map((advocate) => {
           return (
-            <tr key={`${advocate.firstName}_${advocate.lastName}_${advocate.phoneNumber}`}>
+            <tr
+              key={`${advocate.firstName}_${advocate.lastName}_${advocate.phoneNumber}`}
+            >
               <td>{advocate.firstName}</td>
               <td>{advocate.lastName}</td>
               <td>{advocate.city}</td>
