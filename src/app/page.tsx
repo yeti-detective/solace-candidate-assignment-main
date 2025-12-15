@@ -6,6 +6,10 @@ import { filterAdvocates } from "./utils.ts";
 import { AdvocatesTable } from "./Components/AdvocatesTable";
 import { SearchHeader } from "./Components/SearchHeader";
 
+
+/**
+ * Home Page component for the Solace Candidate Assignment app 
+ */ 
 export default function Home() {
   const [advocates, setAdvocates] = useState<Advocate[]>([]);
   const [filteredAdvocates, setFilteredAdvocates] = useState<Advocate[]>([]);
