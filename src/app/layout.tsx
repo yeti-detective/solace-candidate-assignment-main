@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const lato = Lato({
+  weight: ['100', '300', '400', '700', '900'],
+  subsets: ["latin"],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "Solace Candidate Assignment",
@@ -16,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={lato.className}>{children}</body>
     </html>
   );
 }
