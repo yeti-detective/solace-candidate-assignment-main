@@ -42,12 +42,14 @@ export function useFilteredAdvocates() {
 
   const resetSearch = useCallback(() => {
     setFilteredAdvocates(advocates);
+    getSearchTermElement().innerHTML = '';
+    document.getElementById("search-input").value = '';
   }, [advocates])
   
   const onSearchTermChange = useCallback((e) => {
     const searchTerm = e.target.value;
 
-    document.getElementById("search-term").innerHTML = searchTerm;
+    getSearchTermElement().innerHTML = searchTerm;
 
     console.log("filtering advocates...");
     const filteredAdvocates = filterAdvocates(advocates ?? [], searchTerm);
@@ -55,4 +57,11 @@ export function useFilteredAdvocates() {
   }, [advocates]);
 
   return {filteredAdvocates, onSearchTermChange, resetSearch}
+}
+
+/**
+ * helper function to get the search-term element 
+ */ 
+const getSearchTermElement = (): HtmlElement => {
+  return document.getElementById("search-term")
 }
