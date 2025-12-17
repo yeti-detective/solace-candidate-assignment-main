@@ -40,7 +40,7 @@ function Home() {
   );
 }
 
-export default function () {
+export default function App() {
   return (
     <SolaceCandidateAssignmentQueryClientProvider>
       <Home />
