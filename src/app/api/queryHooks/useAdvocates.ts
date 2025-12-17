@@ -1,18 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import {filterAdvocates } from "../../utils";
 
 const getAdvocatesUrl = "/api/advocates";
 
 /**
  * Query Hook that fetches from the /api/advocates endpoint
  * @param page - The page number to fetch (1-indexed)
+ * @param searchTerm - The search term to filter advocates
  */
-export function useAdvocates(page: number = 1) {
+export function useAdvocates(page: number = 1, searchTerm: string = "") {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    ...(searchTerm && { searchTerm }),
+  });
+
   return useQuery(
-    { queryKey: [getAdvocatesUrl, page],
+    { queryKey: [getAdvocatesUrl, page, searchTerm],
       queryFn: () =>
-    fetch(`${getAdvocatesUrl}?page=${page}`).then((response) =>
+    fetch(`${getAdvocatesUrl}?${params}`).then((response) =>
       response.json(),
     ),
       options: {
@@ -25,7 +30,7 @@ export function useAdvocates(page: number = 1) {
 /**
  * Hook that returns:
  * - filteredAdvocates, which is the response from /api/advocates
- * filtered by the search term.
+ * filtered by the search term (on the backend).
  * - onSearchTermChange, the function meant to be used
  * as the onChange function of the search input
  * - resetSearch, a function that clears the search term
@@ -33,34 +38,29 @@ export function useAdvocates(page: number = 1) {
  */
 export function useFilteredAdvocates() {
   const [page, setPage] = useState(1);
-  const {data: response } = useAdvocates(page);
+  const [searchTerm, setSearchTerm] = useState("");
+  const {data: response } = useAdvocates(page, searchTerm);
 
-  const advocates = response?.data;
+  const advocates = response?.data ?? [];
   const pagination = response?.pagination;
 
-  const [filteredAdvocates, setFilteredAdvocates] = useState([]);
-
-  useEffect(() => {
-    if (advocates) {
-      setFilteredAdvocates(advocates)
-    }
-  }, [advocates]);
-
   const resetSearch = useCallback(() => {
-    setFilteredAdvocates(advocates);
+    setSearchTerm("");
+    setPage(1);
     getSearchTermElement().innerHTML = '';
     document.getElementById("search-input").value = '';
-  }, [advocates])
+  }, [])
 
   const onSearchTermChange = useCallback((e) => {
-    const searchTerm = e.target.value;
+    const newSearchTerm = e.target.value;
 
-    getSearchTermElement().innerHTML = searchTerm;
+    getSearchTermElement().innerHTML = newSearchTerm;
 
-    console.log("filtering advocates...");
-    const filteredAdvocates = filterAdvocates(advocates ?? [], searchTerm);
-    setFilteredAdvocates(filteredAdvocates);
-  }, [advocates]);
+    console.log("searching advocates...");
+    setSearchTerm(newSearchTerm);
+    // Reset to page 1 when search term changes
+    setPage(1);
+  }, []);
 
   const goToNextPage = useCallback(() => {
     if (pagination?.hasNextPage) {
@@ -79,7 +79,7 @@ export function useFilteredAdvocates() {
   }, []);
 
   return {
-    filteredAdvocates,
+    filteredAdvocates: advocates,
     onSearchTermChange,
     resetSearch,
     pagination,
