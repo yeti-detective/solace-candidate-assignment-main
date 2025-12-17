@@ -6,13 +6,14 @@ const getAdvocatesUrl = "/api/advocates";
 
 /**
  * Query Hook that fetches from the /api/advocates endpoint
+ * @param page - The page number to fetch (1-indexed)
  */
-export function useAdvocates() {
+export function useAdvocates(page: number = 1) {
   return useQuery(
-    { queryKey: [getAdvocatesUrl],
+    { queryKey: [getAdvocatesUrl, page],
       queryFn: () =>
-    fetch(getAdvocatesUrl).then((response) =>
-      response.json().then((jres) => jres.data),
+    fetch(`${getAdvocatesUrl}?page=${page}`).then((response) =>
+      response.json(),
     ),
       options: {
         onError: (e) => console.error("Uh oh, spaghettios", e),
@@ -25,12 +26,17 @@ export function useAdvocates() {
  * Hook that returns:
  * - filteredAdvocates, which is the response from /api/advocates
  * filtered by the search term.
- * - onSearchTermChange, the function meant to be used 
+ * - onSearchTermChange, the function meant to be used
  * as the onChange function of the search input
- * - resetSearch, a function that clears the search term 
- */ 
+ * - resetSearch, a function that clears the search term
+ * - pagination metadata and controls
+ */
 export function useFilteredAdvocates() {
-  const {data: advocates } = useAdvocates();
+  const [page, setPage] = useState(1);
+  const {data: response } = useAdvocates(page);
+
+  const advocates = response?.data;
+  const pagination = response?.pagination;
 
   const [filteredAdvocates, setFilteredAdvocates] = useState([]);
 
@@ -45,7 +51,7 @@ export function useFilteredAdvocates() {
     getSearchTermElement().innerHTML = '';
     document.getElementById("search-input").value = '';
   }, [advocates])
-  
+
   const onSearchTermChange = useCallback((e) => {
     const searchTerm = e.target.value;
 
@@ -56,7 +62,31 @@ export function useFilteredAdvocates() {
     setFilteredAdvocates(filteredAdvocates);
   }, [advocates]);
 
-  return {filteredAdvocates, onSearchTermChange, resetSearch}
+  const goToNextPage = useCallback(() => {
+    if (pagination?.hasNextPage) {
+      setPage((p) => p + 1);
+    }
+  }, [pagination]);
+
+  const goToPreviousPage = useCallback(() => {
+    if (pagination?.hasPreviousPage) {
+      setPage((p) => p - 1);
+    }
+  }, [pagination]);
+
+  const goToPage = useCallback((newPage: number) => {
+    setPage(newPage);
+  }, []);
+
+  return {
+    filteredAdvocates,
+    onSearchTermChange,
+    resetSearch,
+    pagination,
+    goToNextPage,
+    goToPreviousPage,
+    goToPage,
+  }
 }
 
 /**
