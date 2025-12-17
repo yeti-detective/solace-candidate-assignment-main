@@ -84,9 +84,7 @@ export function Pagination({
             key={pageNum}
             onClick={() => onGoToPage(pageNum as number)}
             className={`px-3 py-1 border rounded ${
-              pageNum === page
-                ? "bg-blue-500 text-white"
-                : "hover:bg-gray-100"
+              pageNum === page ? "bg-blue-500 text-white" : "hover:bg-gray-100"
             }`}
           >
             {pageNum}
