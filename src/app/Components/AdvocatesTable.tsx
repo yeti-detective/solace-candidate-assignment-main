@@ -13,16 +13,16 @@ interface IAdvocatesTableProps {
  */
 export function AdvocatesTable({ advocates }: IAdvocatesTableProps) {
   return (
-    <table>
+    <table className="w-full table-fixed border-collapse">
       <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>City</th>
-          <th>Degree</th>
-          <th>Specialties</th>
-          <th>Years of Experience</th>
-          <th>Phone Number</th>
+        <tr className="border-b">
+          <th className="w-[12%] text-left p-2">First Name</th>
+          <th className="w-[12%] text-left p-2">Last Name</th>
+          <th className="w-[12%] text-left p-2">City</th>
+          <th className="w-[10%] text-left p-2">Degree</th>
+          <th className="w-[20%] text-left p-2">Specialties</th>
+          <th className="w-[14%] text-left p-2">Years of Experience</th>
+          <th className="w-[20%] text-left p-2">Phone Number</th>
         </tr>
       </thead>
       <tbody>
@@ -30,18 +30,23 @@ export function AdvocatesTable({ advocates }: IAdvocatesTableProps) {
           return (
             <tr
               key={`${advocate.firstName}_${advocate.lastName}_${advocate.phoneNumber}`}
+              className="border-b hover:bg-gray-50"
             >
-              <td>{advocate.firstName}</td>
-              <td>{advocate.lastName}</td>
-              <td>{advocate.city}</td>
-              <td>{advocate.degree}</td>
-              <td>
+              <td className="p-2">{advocate.firstName}</td>
+              <td className="p-2">{advocate.lastName}</td>
+              <td className="p-2">{advocate.city}</td>
+              <td className="p-2">{advocate.degree}</td>
+              <td className="p-2">
                 {advocate.specialties.map((s) => (
                   <div key={s}>{s}</div>
                 ))}
               </td>
-              <td>{advocate.yearsOfExperience}</td>
-              <td>{formatPhoneNumber(advocate.phoneNumber)}</td>
+              <td className="p-2">{advocate.yearsOfExperience}</td>
+              <td className="p-2">
+                <a href={`tel://${advocate.phoneNumber}`}>
+                  {formatPhoneNumber(advocate.phoneNumber)}
+                </a>
+              </td>
             </tr>
           );
         })}
