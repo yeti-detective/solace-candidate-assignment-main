@@ -14,17 +14,14 @@ export function useAdvocates(page: number = 1, searchTerm: string = "") {
     ...(searchTerm && { searchTerm }),
   });
 
-  return useQuery(
-    { queryKey: [getAdvocatesUrl, page, searchTerm],
-      queryFn: () =>
-    fetch(`${getAdvocatesUrl}?${params}`).then((response) =>
-      response.json(),
-    ),
-      options: {
-        onError: (e) => console.error("Uh oh, spaghettios", e),
-      }
-    }
-  );
+  return useQuery({
+    queryKey: [getAdvocatesUrl, page, searchTerm],
+    queryFn: () =>
+      fetch(`${getAdvocatesUrl}?${params}`).then((response) => response.json()),
+    options: {
+      onError: (e) => console.error("Uh oh, spaghettios", e),
+    },
+  });
 }
 
 /**
@@ -39,7 +36,7 @@ export function useAdvocates(page: number = 1, searchTerm: string = "") {
 export function useFilteredAdvocates() {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const {data: response } = useAdvocates(page, searchTerm);
+  const { data: response } = useAdvocates(page, searchTerm);
 
   const advocates = response?.data ?? [];
   const pagination = response?.pagination;
@@ -47,9 +44,9 @@ export function useFilteredAdvocates() {
   const resetSearch = useCallback(() => {
     setSearchTerm("");
     setPage(1);
-    getSearchTermElement().innerHTML = '';
-    document.getElementById("search-input").value = '';
-  }, [])
+    getSearchTermElement().innerHTML = "";
+    document.getElementById("search-input").value = "";
+  }, []);
 
   const onSearchTermChange = useCallback((e) => {
     const newSearchTerm = e.target.value;
@@ -86,12 +83,12 @@ export function useFilteredAdvocates() {
     goToNextPage,
     goToPreviousPage,
     goToPage,
-  }
+  };
 }
 
 /**
- * helper function to get the search-term element 
- */ 
+ * helper function to get the search-term element
+ */
 const getSearchTermElement = (): HtmlElement => {
-  return document.getElementById("search-term")
-}
+  return document.getElementById("search-term");
+};

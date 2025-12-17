@@ -15,4 +15,3 @@ export const formatPhoneNumber = (phoneNumber: Number): string => {
       return "";
   }
 };
-

@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         ilike(advocates.city, `%${searchTerm}%`),
         ilike(advocates.degree, `%${searchTerm}%`),
         sql`CAST(${advocates.specialties} AS TEXT) ILIKE ${`%${searchTerm}%`}`,
-        sql`CAST(${advocates.yearsOfExperience} AS TEXT) ILIKE ${`%${searchTerm}%`}`
+        sql`CAST(${advocates.yearsOfExperience} AS TEXT) ILIKE ${`%${searchTerm}%`}`,
       )
     : undefined;
 
